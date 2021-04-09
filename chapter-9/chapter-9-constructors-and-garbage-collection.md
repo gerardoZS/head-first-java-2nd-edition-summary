@@ -197,3 +197,70 @@ Well, that means you get a choice.
 
 **Every constructor can have a call to super() or this(), but never both!**
 
+## Now we know how an object is born, but how long does an object live?
+
+An object’s life depends entirely on the life of references referring to it. If the reference is considered “alive”,
+the object is still alive on the Heap. If the reference dies (and we’ll look at what that means in just a moment),
+the object will die.
+
+> 1. **A local variable lives only within the method that declared the variable.**
+> **A local variable is in scope only within its own method.**  
+>   
+> 
+> 2. **An instance variable lives as long as the object does.**
+  
+
+The difference between **life** and **scope** for local variables:
+
+**Life**
+
+A local variable is *alive* as long as its Stack frame is on the Stack. In other words, until the method completes.
+
+**Scope**
+
+A local variable is in *scope* only within the method in which the variable was declared. When its own method calls
+another, the variable is alive, but not in scope until its method resumes.
+**You can use a variable only when it is in scope.**  
+<br>
+
+While a local variable is alive, its state persists. But the local variable can be used only while its Stack frame is
+at the top. In other words, you can use a local variable *only* while that local variable’s method is actually running.
+
+## What about reference variables?
+
+The rules are the same for primitives and references. A reference variable can be used only when it’s in scope.
+The *real* question is:
+
+**How does variable life affect object life?**
+
+An object is alive as long as there are *live* references to it. And then you have to ask... 
+“What happens when the Stack frame holding the reference gets popped off the Stack at the end of the method?” 
+
+If that was the only live reference to the object, the object is now abandoned on the Heap.
+
+The trick is to know the point at which an object becomes **eligible for garbage collection**.
+
+> **An object becomes eligible for GC when its last live reference disappears.**
+> 
+> **Three ways to get rid of an object’s reference:**
+> 
+> 1. The reference goes out of scope, permanently.  
+> 
+>     ![reference-goes-out-scope-permanently.png](reference-goes-out-scope-permanently.png)
+>   
+> 
+> 2. The reference is assigned another object.  
+> 
+>     ![reference-is-assigned-another-object.png](reference-is-assigned-another-object.png)
+> 
+> 
+> 3. The reference is explicitly set to null
+> 
+>     ![reference-is-explicitly-set-to-null.png](reference-is-explicitly-set-to-null.png)
+
+
+> **The meaning of null**  
+> 
+> A null reference has bits representing ‘null’ (we don’t know or care what those bits are, as long as the JVM knows).
+> 
+> **If you use the dot operator on a null reference, you’ll get a NullPointerException at runtime.**
